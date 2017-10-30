@@ -3,11 +3,14 @@
 \name{pseudotime}
 \alias{pseudotime}
 \alias{curveWeights}
+\alias{lineageWeights}
 \title{Get Slingshot pseudotime values}
 \usage{
 pseudotime(x, ...)
 
 curveWeights(x)
+
+lineageWeights(x)
 }
 \arguments{
 \item{x}{a \code{SlingshotDataSet} object.}
@@ -22,6 +25,9 @@ an \code{n} by \code{L} matrix representing each cell's pseudotime
 
 an \code{n} by \code{L} matrix of cell weights along
   each lineage.
+
+an \code{n} by \code{L} matrix of cell weights along
+  each lineage.
 }
 \description{
 Extract the matrix of pseudotime values or cells' weights along
@@ -33,5 +39,5 @@ sds <- slingshot(rd, cl)
 pseudotime(sds)
 data("slingshotExample")
 sds <- slingshot(rd, cl)
-curveWeights(sds)
+lineageWeights(sds)
 }

@@ -12,7 +12,7 @@
 \item{x}{a \code{SlingshotDataSet} with results to be plotted.}
 
 \item{type}{character, the type of output to be plotted, can be one of 
-\code{"lineages"}, \code{curves}, or \code{both} (by partial matching), see
+\code{lineages}, \code{curves}, or \code{both} (by partial matching), see
 Details for more.}
 
 \item{add}{logical, indicates whether the output should be added to an
@@ -32,9 +32,9 @@ returns \code{NULL}.
 Tools for visualizing lineages inferred by \code{slingshot}.
 }
 \details{
-If \code{type == 'lineages'}, straight line connectors between
-  cluster centers will be plotted. If \code{type == 'curves'}, simultaneous
-  princiapl curves will be plotted.
+If \code{type == "lineages"}, straight line connectors 
+  between cluster centers will be plotted. If the \code{type == "curves"},
+  simultaneous princiapl curves will be plotted.
 
 When \code{type} is not specified, the function will first check the
   \code{curves} slot and plot the curves, if present. Otherwise,

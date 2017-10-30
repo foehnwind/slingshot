@@ -5,7 +5,7 @@
 #'   
 #' @param x a \code{SlingshotDataSet} with results to be plotted.
 #' @param type character, the type of output to be plotted, can be one of 
-#'   \code{"lineages"}, \code{curves}, or \code{both} (by partial matching), see
+#'   \code{lineages}, \code{curves}, or \code{both} (by partial matching), see
 #'   Details for more.
 #' @param add logical, indicates whether the output should be added to an
 #'   existing plot.
@@ -13,9 +13,9 @@
 #' @param asp numeric, the y/x aspect ratio, see \code{\link{plot.window}}.
 #' @param ... additional parameters to be passed to \code{\link{lines}}.
 #'   
-#' @details If \code{type == 'lineages'}, straight line connectors between
-#'   cluster centers will be plotted. If \code{type == 'curves'}, simultaneous
-#'   princiapl curves will be plotted.
+#' @details If \code{type == "lineages"}, straight line connectors 
+#'   between cluster centers will be plotted. If the \code{type == "curves"},
+#'   simultaneous princiapl curves will be plotted.
 #'   
 #' @details When \code{type} is not specified, the function will first check the
 #'   \code{curves} slot and plot the curves, if present. Otherwise,
@@ -246,7 +246,7 @@ setMethod(
 #'   
 #' @param x a \code{SlingshotDataSet} with results to be plotted.
 #' @param type character, the type of output to be plotted, can be one of 
-#'   \code{"lineages"}, \code{curves}, or \code{both} (by partial matching), see
+#'   \code{lineages}, \code{curves}, or \code{both} (by partial matching), see
 #'   Details for more.
 #' @param add logical, indicates whether the output should be added to an
 #'   existing plot.
@@ -255,9 +255,9 @@ setMethod(
 #'   or a new ratio, see \code{plot3d}.
 #' @param ... additional parameters to be passed to \code{lines3d}.
 #'   
-#' @details If \code{type == 'lineages'}, straight line connectors between
-#'   cluster centers will be plotted. If \code{type == 'curves'}, simultaneous
-#'   princiapl curves will be plotted.
+#' @details If \code{type == "lineages"}, straight line connectors 
+#'   between cluster centers will be plotted. If the \code{type == "curves"},
+#'   simultaneous princiapl curves will be plotted.
 #'   
 #' @details When \code{type} is not specified, the function will first check the
 #'   \code{curves} slot and plot the curves, if present. Otherwise,
@@ -376,51 +376,51 @@ plot3d.SlingshotDataSet <- function(x,
     invisible(NULL)
 }
 
-#' #' @rdname SlingshotDataSet-plot3d
-#' #' @export
-#' setMethod(
-#'   f = "plot3d",
-#'   signature = "SlingshotDataSet",
-#'   definition = function(x,
-#'                         type = NULL,
-#'                         add = FALSE,
-#'                         dims = 1:3,
-#'                         aspect = 'iso',
-#'                         ...) {
-#'     plot3d.SlingshotDataSet(x, type = type, add = add, dims = dims, 
-#'                             aspect = aspect, ...)
-#'   }
-#' )
+# #' @rdname SlingshotDataSet-plot3d
+# #' @export
+# setMethod(
+#   f = "plot3d",
+#   signature = "SlingshotDataSet",
+#   definition = function(x,
+#                         type = NULL,
+#                         add = FALSE,
+#                         dims = 1:3,
+#                         aspect = 'iso',
+#                         ...) {
+#     plot3d.SlingshotDataSet(x, type = type, add = add, dims = dims, 
+#                             aspect = aspect, ...)
+#   }
+# )
 
-#' #' @rdname SlingshotDataSet-plot3d
-#' #' @examples
-#' #' %\dontrun{
-#' #' data("slingshotExample")
-#' #' rd <- cbind(rd, rnorm(nrow(rd)))
-#' #' sds <- slingshot(rd, cl, start.clus = "1")
-#' #' plot3d(rd, col = 'grey50', aspect = 'iso')
-#' #' lines3d(sds, lwd = 3)
-#' #' }
-#' #' @export
-#' lines3d.SlingshotDataSet <- function(x,
-#'                                      type = NULL,
-#'                                      dims = 1:3,
-#'                                      ...) {
-#'   plot3d(x, type = type, add = TRUE, dims = dims, ...)
-#'   invisible(NULL)
-#' }
-#' #' @rdname SlingshotDataSet-plot3d
-#' #' @export
-#' setMethod(
-#'   f = "lines3d",
-#'   signature = "SlingshotDataSet",
-#'   definition = function(x,
-#'                         type = NULL,
-#'                         dims = 1:3,
-#'                         ...) {
-#'     lines3d.SlingshotDataSet(x, type = type, add = TRUE, dims = dims, ...)
-#'   }
-#' )
+# #' @rdname SlingshotDataSet-plot3d
+# #' @examples
+# #' %\dontrun{
+# #' data("slingshotExample")
+# #' rd <- cbind(rd, rnorm(nrow(rd)))
+# #' sds <- slingshot(rd, cl, start.clus = "1")
+# #' plot3d(rd, col = 'grey50', aspect = 'iso')
+# #' lines3d(sds, lwd = 3)
+# #' }
+# #' @export
+# lines3d.SlingshotDataSet <- function(x,
+#                                      type = NULL,
+#                                      dims = 1:3,
+#                                      ...) {
+#   plot3d(x, type = type, add = TRUE, dims = dims, ...)
+#   invisible(NULL)
+# }
+# #' @rdname SlingshotDataSet-plot3d
+# #' @export
+# setMethod(
+#   f = "lines3d",
+#   signature = "SlingshotDataSet",
+#   definition = function(x,
+#                         type = NULL,
+#                         dims = 1:3,
+#                         ...) {
+#     lines3d.SlingshotDataSet(x, type = type, add = TRUE, dims = dims, ...)
+#   }
+# )
 
 
 #' @title Pairs plot of Slingshot output
@@ -431,14 +431,14 @@ plot3d.SlingshotDataSet <- function(x,
 #'   
 #' @param x a \code{SlingshotDataSet} with results to be plotted.
 #' @param type character, the type of output to be plotted, can be one of 
-#'   \code{"lineages"}, \code{curves}, or \code{both} (by partial matching), see
+#'   \code{lineages}, \code{curves}, or \code{both} (by partial matching), see
 #'   Details for more.
 #' @param ... additional parameters for \code{plot} or \code{axis}, see 
 #'   \code{\link{pairs}}.
 #'   
-#' @details If \code{type == 'lineages'}, straight line connectors between
-#'   cluster centers will be plotted. If \code{type == 'curves'}, simultaneous
-#'   princiapl curves will be plotted.
+#' @details If \code{type == "lineages"}, straight line connectors 
+#'   between cluster centers will be plotted. If the \code{type == "curves"},
+#'   simultaneous princiapl curves will be plotted.
 #'   
 #' @details When \code{type} is not specified, the function will first check the
 #'   \code{curves} slot and plot the curves, if present. Otherwise,

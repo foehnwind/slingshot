@@ -9,6 +9,7 @@
 \alias{getLineages,data.frame,ANY-method}
 \alias{getLineages,matrix,numeric-method}
 \alias{getLineages,matrix,factor-method}
+\alias{getLineages,matrix,matrix-method}
 \title{Infer Lineage Structure from Clustered Samples}
 \usage{
 getLineages(reducedDim, clusterLabels, ...)
@@ -31,6 +32,9 @@ getLineages(reducedDim, clusterLabels, ...)
 
 \S4method{getLineages}{matrix,factor}(reducedDim, clusterLabels,
   start.clus = NULL, end.clus = NULL, dist.fun = NULL, omega = NULL)
+
+\S4method{getLineages}{matrix,matrix}(reducedDim, clusterLabels,
+  start.clus = NULL, end.clus = NULL, dist.fun = NULL, omega = NULL)
 }
 \arguments{
 \item{reducedDim}{numeric, the \code{n} by \code{p} matrix of samples in a
@@ -38,8 +42,9 @@ reduced dimensionality space.}
 
 \item{clusterLabels}{character, a vector of length \code{n} denoting cluster
 labels, optionally including \code{-1}'s for "unclustered." If
-\code{reducedDim} is a \code{SlingshotDataSet}, cluster labels will be
-taken from it.}
+\code{reducedDim} is a \code{SlingshotDataSet}, clustering infromation will
+be taken from it. For soft clustering, this can also be an \code{n} by 
+\code{K} matrix of cluster probabilities.}
 
 \item{start.clus}{(optional) character, indicates the cluster(s) *from* which
 lineages will be drawn.}
@@ -63,14 +68,16 @@ default, \code{omega = Inf}.}
 \value{
 An object of class \code{\link{SlingshotDataSet}} containing the 
   arguments provided to \code{getLineages} as well as the following new 
-  elements: \itemize{ \item{\code{lineages}}{ a list of \code{L} items, where
+  elements: 
+  \itemize{\item{\code{lineages}}{ a list of \code{L} items, where
   \code{L} is the number of lineages identified. Each lineage is represented
   by a character vector with the names of the clusters included in that
-  lineage, in order.} \item{\code{connectivity}}{ the inferred cluster
-  connectivity matrix.} 
-  \item{\code{lineageControl$start.given},\code{lineageControl$end.given}} {
+  lineage, in order.} 
+  \item{\code{adjacency}}{ the inferred cluster adjacency matrix.} 
+  \item{\code{slingParams$start.given},\code{slingParams$end.given}}{
   logical values indicating whether the starting and ending clusters were 
-  specified a priori.} \item{\code{lineageControl$dist}}{ the pairwise
+  specified a priori.} 
+  \item{\code{slingParams$dist}}{ the pairwise
   cluster distance matrix.}}
 }
 \description{
@@ -80,13 +87,13 @@ Given a reduced-dimension data matrix \code{n} by \code{p} and a
   returns paths through the forest that can be interpreted as lineages.
 }
 \details{
-The \code{connectivity} matrix is learned by fitting a (possibly
+The \code{adjacency} matrix is learned by fitting a (possibly
   constrained) minimum-spanning tree on the clusters and the artificial 
   cluster, OMEGA, which is a fixed distance away from every real cluster.
   This effectively limits the maximum branch length in the MST to twice the
   chosen distance, meaning that the output may contain multiple trees.
 
-Once the \code{connectivity} is known, lineages are identified in
+Once the \code{adjacency} is known, lineages are identified in
   any tree with at least two clusters. For a given tree, if there is an
   annotated starting cluster, every possible path out of a starting cluster
   and ending in a leaf that isn't another starting cluster will be returned.

@@ -14,10 +14,11 @@
 #'   
 #' @param reducedDim numeric matrix or \code{SlingshotDataSet} object containing
 #'   low- dimensional representation of single cells.
-#' @param clusterLabels character, a vector of length \code{n} denoting cluster
-#'   labels, optionally including \code{-1}'s for "unclustered." If
-#'   \code{reducedDim} is a \code{SlingshotDataSet}, cluster labels will be
-#'   taken from it.
+#' @param clusterLabels matrix or character. An \code{n} by \code{K} matrix of 
+#'   weights indicating each cell's cluster assignment or a character vector of
+#'   cluster assignments, which will be converted into a binary matrix. May
+#'   optionally include \code{-1}'s for "unclustered." If the first argument is 
+#'   a \code{SlingshotDataSet}, clustering infromation will be taken from it. 
 #' @param start.clus (optional) character, indicates the cluster(s) of origin.
 #'   Lineages will be represented by paths coming out of this cluster.
 #' @param end.clus (optional) character, indicates the cluster(s) which will be 
@@ -147,6 +148,36 @@
 #' 
 setMethod(f = "slingshot",
           signature = signature(reducedDim = "matrix", 
+                                clusterLabels = "matrix"),
+          definition = function(reducedDim, clusterLabels,
+                                start.clus = NULL, end.clus = NULL,
+                                dist.fun = NULL, omega = NULL,
+                                lineages = list(),
+                                shrink = TRUE,
+                                extend = 'y',
+                                reweight = TRUE,
+                                drop.multi = TRUE,
+                                thresh = 0.001, maxit = 15, stretch = 2,
+                                smoother = 'smooth.spline',
+                                shrink.method = 'cosine',
+                                allow.breaks = TRUE, ...){
+              sds <- getLineages(reducedDim, clusterLabels,
+                                 start.clus = start.clus, end.clus = end.clus,
+                                 dist.fun = dist.fun, omega = omega)
+              sds <- getCurves(sds,
+                               shrink = shrink, extend = extend,
+                               reweight = reweight, drop.multi = drop.multi,
+                               thresh = thresh, maxit = maxit,
+                               stretch = stretch, smoother = smoother,
+                               shrink.method = shrink.method,
+                               allow.breaks = allow.breaks, ...)
+              return(sds)
+          }
+)
+#' @rdname slingshot
+#' @export
+setMethod(f = "slingshot",
+          signature = signature(reducedDim = "matrix", 
                                 clusterLabels = "character"),
           definition = function(reducedDim, clusterLabels,
                                 start.clus = NULL, end.clus = NULL,
@@ -160,17 +191,20 @@ setMethod(f = "slingshot",
                                 smoother = 'smooth.spline',
                                 shrink.method = 'cosine',
                                 allow.breaks = TRUE, ...){
-            sds <- getLineages(reducedDim, clusterLabels,
+              clusW <- table(rownames(reducedDim), clusterLabels)
+              clusW <- clusW[match(rownames(reducedDim),rownames(clusW)),]
+              class(clusW) <- 'matrix'
+              return(slingshot(reducedDim = reducedDim,
+                               clusterLabels = clusW,
                                start.clus = start.clus, end.clus = end.clus,
-                               dist.fun = dist.fun, omega = omega)
-            sds <- getCurves(sds,
-                             shrink = shrink, extend = extend,
-                             reweight = reweight, drop.multi = drop.multi,
-                             thresh = thresh, maxit = maxit,
-                             stretch = stretch, smoother = smoother,
-                             shrink.method = shrink.method,
-                             allow.breaks = allow.breaks, ...)
-            return(sds)
+                               dist.fun = dist.fun, omega = omega,
+                               shrink = shrink, extend = extend,
+                               reweight = reweight, drop.multi = drop.multi,
+                               thresh = thresh, maxit = maxit,
+                               stretch = stretch, smoother = smoother,
+                               shrink.method = shrink.method,
+                               allow.breaks = allow.breaks, ...))
+              return(sds)
           }
 )
 

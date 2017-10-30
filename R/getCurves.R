@@ -77,7 +77,7 @@
 #' @return An updated \code{\link{SlingshotDataSet}} object containing the 
 #'   oringinal input, arguments provided to \code{getCurves} as well as the 
 #'   following new elements: \itemize{ \item{curves}{A list of
-#'   \code{\link{principal.curve}} objects.} \item{curveControls}{Additional
+#'   \code{\link{principal.curve}} objects.} \item{slingParams}{Additional
 #'   parameters used for fitting simultaneous principal curves.}}
 #'   
 #' @references Hastie, T., and Stuetzle, W. (1989). "Principal Curves."
@@ -109,11 +109,11 @@ setMethod(f = "getCurves",
                                 shrink.method = 'cosine',
                                 allow.breaks = TRUE, ...){
               
-              sds@curveControl$shrink <- shrink
-              sds@curveControl$extend <- extend
-              sds@curveControl$reweight <- reweight
-              sds@curveControl$drop.multi <- drop.multi
-              sds@curveControl$shrink.method <- shrink.method
+              sds@slingParams$shrink <- shrink
+              sds@slingParams$extend <- extend
+              sds@slingParams$reweight <- reweight
+              sds@slingParams$drop.multi <- drop.multi
+              sds@slingParams$shrink.method <- shrink.method
               
               # CHECKS
               X <- reducedDim(sds)
@@ -468,18 +468,8 @@ setMethod(f = "getCurves",
                   pcurve$pseudotime[pcurve$w==0] <- NA
               }
               
-              #pseudotime <- sapply(pcurves, function(pc) { pc$lambda })
-              #weights <- sapply(seq_len(L), function(l) { W[,l] })
-              #rownames(weights) <- rownames(X)
-              #colnames(weights) <- names(pcurves)
-              #pseudotime[weights == 0] <- NA
-              #rownames(pseudotime) <- rownames(X)
-              #colnames(pseudotime) <- names(pcurves)
-              
               sds@curves <- pcurves
-              #sds@pseudotime <- pseudotime
-              #sds@curveWeights <- weights
-              
+
               validObject(sds)
               return(sds)
           })
